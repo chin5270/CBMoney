@@ -2,6 +2,7 @@ package com.example.cbmoney;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,8 +23,7 @@ public class AccountFragment extends Fragment {
                              Bundle savedInstanceState) {
        binding = FragmentAccountBinding.inflate(inflater, container, false);
        myViewModel = new ViewModelProvider(requireActivity()).get(MyViewModel.class);
-
-       myViewModel.getNumber().observe(this, new Observer<Integer>() {
+       myViewModel.getNumber().observe(getViewLifecycleOwner(), new Observer<Integer>() {
            @Override
            public void onChanged(Integer integer) {
                binding.num2.setText(String.valueOf(myViewModel.getNumber().getValue()));
@@ -31,6 +31,8 @@ public class AccountFragment extends Fragment {
        });
 
 
-        return inflater.inflate(R.layout.fragment_account, container, false);
+        return  binding.getRoot();
     }
+
+
 }

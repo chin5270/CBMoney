@@ -8,16 +8,19 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.example.cbmoney.R;
+import com.example.cbmoney.ViewModel.MyViewModel;
 import com.example.cbmoney.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         // 一開始的畫面
         replaceFragment(new EditNoteFragment());
         // 監聽按鍵被觸發時，做得動作
