@@ -3,6 +3,7 @@ package com.example.cbmoney;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,11 +27,10 @@ public class EditNoteFragment extends Fragment {
         binding = FragmentEditNoteBinding.inflate(inflater, container, false);
 
         myViewModel= new ViewModelProvider(requireActivity()).get(MyViewModel.class);
-        myViewModel.getNumber().observe(this, new Observer<Integer>() {
+        myViewModel.getNumber().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
                 binding.texviewShownum.setText(String.valueOf(integer));
-                Log.d("chin","onChanged:myViewModel.getNumber():"+myViewModel.getNumber().getValue());
 
             }
         });
@@ -45,7 +45,6 @@ public class EditNoteFragment extends Fragment {
 
         return binding.getRoot();
     }
-
 
 
 }
