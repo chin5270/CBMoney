@@ -2,16 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/edit_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="記帳本"
         android:icon="@drawable/edit_note_24"/>
     <item
+        android:id="@+id/account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="帳戶"
         android:icon="@drawable/account_balance_24"/>
     <item
+        android:id="@+id/pie_chart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="圖表分析"
