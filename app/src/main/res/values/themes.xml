@@ -3,7 +3,13 @@
     <style name="Base.Theme.CBMoney" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/orange</item>
     </style>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here -->
+        <item name="colorPrimary">@color/orange</item>
+    </style>
+
 
     <style name="Theme.CBMoney" parent="Base.Theme.CBMoney" />
 </resources>
