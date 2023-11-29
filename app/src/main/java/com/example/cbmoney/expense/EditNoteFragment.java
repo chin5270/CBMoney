@@ -155,7 +155,6 @@ public class EditNoteFragment extends Fragment {
     // 從AddExpense 拿資料，並將資料儲存
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == ADD_EXPENSE_REQUEST && resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
             int year = bundle.getInt("Extra_year");
@@ -171,7 +170,6 @@ public class EditNoteFragment extends Fragment {
         }else if(requestCode == EDIT_EXPENSE_REQUEST && resultCode == RESULT_OK){
             Bundle bundle = data.getExtras();
             int id = bundle.getInt("Extra_id",-1);
-            Log.d("chin",id+":editfgmt");
             if(id==-1){
                 Toast.makeText(getContext(),"expense cannot be updated",Toast.LENGTH_SHORT).show();
                 return;
@@ -183,7 +181,7 @@ public class EditNoteFragment extends Fragment {
             String category = bundle.getString("Extra_category");
             String account = bundle.getString("Extra_account");
             String description = bundle.getString("Extra_description");
-            ExpenseEntity expense1 = new ExpenseEntity(category,description,expense,account,year,month+1,day);
+            ExpenseEntity expense1 = new ExpenseEntity(category,description,expense,account,year,month,day);
             expense1.setId(id); // etId 的目的是將已存在的 ExpenseEntity 對象的 ID 設置為指定的值。這是因為在更新現有的數據時，Room Database 通常使用 ID 來識別特定的數據項。
             expenseViewModel.update(expense1);
             Toast.makeText(getContext(),"expense updated",Toast.LENGTH_SHORT).show();
@@ -191,7 +189,10 @@ public class EditNoteFragment extends Fragment {
         }else{
             Toast.makeText(getContext(),"expense not updated",Toast.LENGTH_SHORT).show();
         }
+
+
     }
+
 
 
 }

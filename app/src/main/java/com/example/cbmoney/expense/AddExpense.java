@@ -40,18 +40,18 @@ public class AddExpense extends AppCompatActivity {
         if(intent.hasExtra("Extra_id")){
             setTitle("Edit expense");
             Bundle bundle2 = intent.getExtras();
-            int year = bundle2.getInt("Extra_year");
-            int month = bundle2.getInt("Extra_month");
-            int day = bundle2.getInt("Extra_day");
+            year = bundle2.getInt("Extra_year");
+            month = bundle2.getInt("Extra_month");
+            day = bundle2.getInt("Extra_day");
             int expense = bundle2.getInt("Extra_expense");
+            Log.d("chin","AddExpense:"+day);
             String category = bundle2.getString("Extra_category");
             String account = bundle2.getString("Extra_account");
             String description = bundle2.getString("Extra_description");
-            binding.inputDate.setText( year + "年" + (month+1) + "月" + day+"日");
+            binding.inputDate.setText( year + "年" + month + "月" + day+"日");
             binding.inputExpense.setText(expense+"");
             binding.inputCategory.setText(category);
             binding.inputDescription.setText(description);
-
         }else{
             setTitle("Add expense");
         }
