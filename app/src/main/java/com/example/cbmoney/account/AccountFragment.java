@@ -1,4 +1,4 @@
-package com.example.cbmoney;
+package com.example.cbmoney.account;
 
 import android.os.Bundle;
 
@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.cbmoney.ViewModel.MyViewModel;
 import com.example.cbmoney.databinding.FragmentAccountBinding;
 
 public class AccountFragment extends Fragment {

@@ -1,4 +1,4 @@
-package com.example.cbmoney;
+package com.example.cbmoney.expense;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -21,9 +21,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.cbmoney.ViewModel.MyViewModel;
 
 import com.example.cbmoney.databinding.FragmentEditNoteBinding;
+import com.example.cbmoney.model.ExpenseEntity;
 
 import java.util.List;
 
@@ -53,6 +53,7 @@ public class EditNoteFragment extends Fragment {
         // 透過 ViewModelProvider 的 get 方法，你可以獲取到與當前上下文相關聯的 ExpenseViewModel 實例。
         expenseViewModel = new ViewModelProvider(this).get(ExpenseViewModel.class);
         expenseViewModel.setAllExpensesForDay(2023,11,23);
+        expenseViewModel.setTotalExpenseForDay(2023,11,23);
         expenseViewModel.getAllExpensesForDay().observe(getViewLifecycleOwner(), new Observer<List<ExpenseEntity>>() {
             // 當 LiveData 中的數據發生變化時，觀察者內的 onChanged 方法將被呼叫，然後ui介面更新
             @Override
@@ -62,6 +63,17 @@ public class EditNoteFragment extends Fragment {
 
             }
         });
+
+        expenseViewModel.getTotalExpenseForDay().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            // 當 LiveData 中的數據發生變化時，觀察者內的 onChanged 方法將被呼叫，然後ui介面更新
+            @Override
+            public void onChanged(Integer totalExpenseForDay) {
+                binding.textViewTotalDay.setText("支出："+totalExpenseForDay);
+
+
+            }
+        });
+
 
 
 

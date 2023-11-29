@@ -1,4 +1,4 @@
-package com.example.cbmoney;
+package com.example.cbmoney.expense;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import com.example.cbmoney.R;
 import com.example.cbmoney.databinding.ActivityAddExpenseBinding;
 
 import java.util.Calendar;
@@ -30,6 +31,9 @@ public class AddExpense extends AppCompatActivity {
         setContentView(binding.getRoot());
         // 設定叉叉的圖是在左上角，以及他的標題在ActionBar上
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.close);
+
+        // 今天的日期
+        showToday();
 
         // intent 中拿到Extra_id ，則將找到的資料綁到介面上，為了修改原本的資料，並且設Title 為 Edit expense
         Intent intent = getIntent();
@@ -47,13 +51,13 @@ public class AddExpense extends AppCompatActivity {
             binding.inputExpense.setText(expense+"");
             binding.inputCategory.setText(category);
             binding.inputDescription.setText(description);
+
         }else{
             setTitle("Add expense");
         }
 
 
-        // 今天的日期
-        showToday();
+
         // 選擇的日期(按到才有)
         setListner();
 

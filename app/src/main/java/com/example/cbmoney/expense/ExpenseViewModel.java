@@ -1,12 +1,13 @@
-package com.example.cbmoney;
+package com.example.cbmoney.expense;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+
+import com.example.cbmoney.model.ExpenseEntity;
+import com.example.cbmoney.repository.ExpenseRepository;
 
 import java.util.List;
 
@@ -22,8 +23,7 @@ public class ExpenseViewModel extends AndroidViewModel {
     public ExpenseViewModel(@NonNull Application application) {
         super(application);
         repository = new ExpenseRepository(application);
-        totalExpenseForMonth = repository.getTotalExpenseForMonth();
-        totalExpenseForDay = repository.getTotalExpenseForDay();
+
     }
 
 

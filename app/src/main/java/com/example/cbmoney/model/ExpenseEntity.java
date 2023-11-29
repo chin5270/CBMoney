@@ -1,4 +1,4 @@
-package com.example.cbmoney;
+package com.example.cbmoney.model;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 

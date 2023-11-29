@@ -6,7 +6,7 @@
     <data>
         <variable
             name="ExpenseViewModel"
-            type="com.example.cbmoney.ExpenseViewModel" />
+            type="com.example.cbmoney.expense.ExpenseViewModel" />
 
     </data>
 

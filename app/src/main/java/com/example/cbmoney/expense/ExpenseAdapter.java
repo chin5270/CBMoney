@@ -1,4 +1,4 @@
-package com.example.cbmoney;
+package com.example.cbmoney.expense;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cbmoney.databinding.ExpenseItemBinding;
+import com.example.cbmoney.model.ExpenseEntity;
 
 
 public class ExpenseAdapter extends ListAdapter<ExpenseEntity,ExpenseAdapter.ExpenseHolder> {
