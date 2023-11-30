@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,45 +20,104 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.example.cbmoney.databinding.FragmentEditNoteBinding;
 import com.example.cbmoney.model.ExpenseEntity;
+import com.example.cbmoney.utils.CalendarUtils;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
 public class EditNoteFragment extends Fragment {
+
     private ExpenseViewModel expenseViewModel;
     private FragmentEditNoteBinding binding;
+    private RecyclerView calendarRecyclerView;
+    RecyclerView listViewRecyclerView;
+    private CalendarAdapter calendarAdapter;
+    private Calendar selectedDate;
+    private ExpenseAdapter adapter;
+    private int year,month,day;
     public static final int ADD_EXPENSE_REQUEST = 1;
     public static final int EDIT_EXPENSE_REQUEST = 2;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentEditNoteBinding.inflate(inflater, container, false);
+        calendarRecyclerView = binding.calendarRecyclerView;
 
+        Calendar calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH)+1;
+        day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        // 設置 RecyclerView 的佈局管理器。這裡使用了 LinearLayoutManager，它是一種將項目垂直或水平排列的佈局管理器
-        // setHasFixedSize 可以優化 RecyclerView 的性能。當你知道內容不會改變 RecyclerView 的大小時，可以設置為 true
-        RecyclerView recyclerView = binding.recyclerView;
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setHasFixedSize(true);
-
-        // 將 ExpenseAdapter 設置為 RecyclerView 的適配器。這將負責管理數據和提供數據項的視圖
-        final ExpenseAdapter adapter = new ExpenseAdapter();
-        recyclerView.setAdapter(adapter);
+        selectedDate = Calendar.getInstance();
+        setMonthView();
+        setListView();
 
 
         // 透過 ViewModelProvider 的 get 方法，你可以獲取到與當前上下文相關聯的 ExpenseViewModel 實例。
         expenseViewModel = new ViewModelProvider(this).get(ExpenseViewModel.class);
-        expenseViewModel.setAllExpensesForDay(2023,11,23);
-        expenseViewModel.setTotalExpenseForDay(2023,11,23);
-        expenseViewModel.getAllExpensesForDay().observe(getViewLifecycleOwner(), new Observer<List<ExpenseEntity>>() {
+        expenseViewModel.setAllExpensesForDay(year,month,day);
+        expenseViewModel.setTotalExpenseForDay(year,month,day);
+        observeList();
+
+
+        swipeExpenseToDelete(adapter,listViewRecyclerView);
+        goToAddExpense();
+        updateExpense(adapter);
+
+        binding.btnPreviousMonthAction.setOnClickListener(previousMonthListener);
+        binding.btnNextMonthAction.setOnClickListener(nextMonthListener);
+
+
+        return binding.getRoot();
+    }
+
+    private void setMonthView() {
+        binding.monthYearTV.setText(CalendarUtils.monthYearFromDate(selectedDate));
+        ArrayList<String> daysInMonth = CalendarUtils.daysInMonthArray(selectedDate);
+
+        calendarAdapter = new CalendarAdapter(daysInMonth, new CalendarAdapter.OnItemListner() {
+            @Override
+            public void onItemClick(int position, String dayText) {
+                if (!dayText.isEmpty()) {
+                    // 根據點擊的位置計算選擇的日期
+                    year = CalendarUtils.getYearFromDate(selectedDate);
+                    month = CalendarUtils.getMonthFromDate(selectedDate);
+                    day = Integer.parseInt(dayText);
+
+
+                    String message = "選擇的日期：" + year + "-" + month + "-" + day;
+                    calendarAdapter.setSelectedItem(position);
+
+                    Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                }
+                expenseViewModel.setAllExpensesForDay(year,month,day);
+                expenseViewModel.setTotalExpenseForDay(year,month,day);
+                observeList();
+
+            }
+
+
+        });
+
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(requireContext(), 7);
+        calendarRecyclerView.setLayoutManager(layoutManager);
+        calendarRecyclerView.setAdapter(calendarAdapter);
+    }
+
+
+    private void observeList(){
+         expenseViewModel.getAllExpensesForDay().observe(getViewLifecycleOwner(), new Observer<List<ExpenseEntity>>() {
             // 當 LiveData 中的數據發生變化時，觀察者內的 onChanged 方法將被呼叫，然後ui介面更新
             @Override
-            public void onChanged(List<ExpenseEntity> expenses) {
+         public void onChanged(List<ExpenseEntity> expenses) {
                 // submitList()這個方法是 ListAdapter 提供的一個功能，用於提交新的數據列表（expenses）並觸發差異更新
                 adapter.submitList(expenses);
 
@@ -73,22 +133,43 @@ public class EditNoteFragment extends Fragment {
 
             }
         });
-
-
-
-
-        swipeExpenseToDelete(adapter,recyclerView);
-        goToAddExpense();
-        updateExpense(adapter);
-
-
-
-
-        return binding.getRoot();
     }
 
 
 
+    private void setListView(){
+        // 設置 RecyclerView 的佈局管理器。這裡使用了 LinearLayoutManager，它是一種將項目垂直或水平排列的佈局管理器
+        // setHasFixedSize 可以優化 RecyclerView 的性能。當你知道內容不會改變 RecyclerView 的大小時，可以設置為 true
+        listViewRecyclerView = binding.recyclerView;
+        listViewRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        listViewRecyclerView.setHasFixedSize(true);
+
+        // 將 ExpenseAdapter 設置為 RecyclerView 的適配器。這將負責管理數據和提供數據項的視圖
+        adapter = new ExpenseAdapter();
+        listViewRecyclerView.setAdapter(adapter);
+    }
+
+    View.OnClickListener previousMonthListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            selectedDate.add(Calendar.MONTH, -1);
+            calendarAdapter.clearSelectedItem(); // 清除选择的日期
+            binding.monthYearTV.setText(CalendarUtils.monthYearFromDate(selectedDate));
+            ArrayList<String> daysInMonth = CalendarUtils.daysInMonthArray(selectedDate);
+
+        }
+    };
+
+    View.OnClickListener nextMonthListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            selectedDate.add(Calendar.MONTH, 1);
+            calendarAdapter.clearSelectedItem(); // 清除选择的日期
+            binding.monthYearTV.setText(CalendarUtils.monthYearFromDate(selectedDate));
+            ArrayList<String> daysInMonth = CalendarUtils.daysInMonthArray(selectedDate);
+
+        }
+    };
 
 
     private void swipeExpenseToDelete(ExpenseAdapter adapter, RecyclerView recyclerView){
@@ -122,7 +203,15 @@ public class EditNoteFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddExpense.class);
-                startActivityForResult(intent,ADD_EXPENSE_REQUEST);
+
+                // 直接創建一個新的 Bundle
+                Bundle bundle3 = new Bundle();
+                bundle3.putInt("Extra_year", year);
+                bundle3.putInt("Extra_month", month);
+                bundle3.putInt("Extra_day", day);
+                intent.putExtras(bundle3);
+
+                startActivityForResult(intent, ADD_EXPENSE_REQUEST);
             }
         });
     }
@@ -157,9 +246,9 @@ public class EditNoteFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADD_EXPENSE_REQUEST && resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
-            int year = bundle.getInt("Extra_year");
-            int month = bundle.getInt("Extra_month");
-            int day = bundle.getInt("Extra_day");
+            year = bundle.getInt("Extra_year");
+            month = bundle.getInt("Extra_month");
+            day = bundle.getInt("Extra_day");
             int expense = bundle.getInt("Extra_expense");
             String category = bundle.getString("Extra_category");
             String account = bundle.getString("Extra_account");
@@ -174,9 +263,9 @@ public class EditNoteFragment extends Fragment {
                 Toast.makeText(getContext(),"expense cannot be updated",Toast.LENGTH_SHORT).show();
                 return;
             }
-            int year = bundle.getInt("Extra_year");
-            int month = bundle.getInt("Extra_month");
-            int day = bundle.getInt("Extra_day");
+            year = bundle.getInt("Extra_year");
+            month = bundle.getInt("Extra_month");
+            day = bundle.getInt("Extra_day");
             int expense = bundle.getInt("Extra_expense");
             String category = bundle.getString("Extra_category");
             String account = bundle.getString("Extra_account");

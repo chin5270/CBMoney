@@ -32,11 +32,13 @@ public class AddExpense extends AppCompatActivity {
         // 設定叉叉的圖是在左上角，以及他的標題在ActionBar上
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.close);
 
-        // 今天的日期
-        showToday();
-
         // intent 中拿到Extra_id ，則將找到的資料綁到介面上，為了修改原本的資料，並且設Title 為 Edit expense
         Intent intent = getIntent();
+
+        // EdtNotefragement的的日期
+        showChoseday(intent);
+
+
         if(intent.hasExtra("Extra_id")){
             setTitle("Edit expense");
             Bundle bundle2 = intent.getExtras();
@@ -64,12 +66,12 @@ public class AddExpense extends AppCompatActivity {
     }
 
 
-//  每次onCreate都會是今天的日期
-    private void showToday(){
-        Calendar calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+//  每次onCreate都會是EdtNotefragement的的日期
+    private void showChoseday(Intent intent){
+        Bundle bundle3 = intent.getExtras();
+        year = bundle3.getInt("Extra_year");
+        month = bundle3.getInt("Extra_month")-1;
+        day = bundle3.getInt("Extra_day");
         String selectedDate = year + "年" + (month+1) + "月" + day+"日";
         binding.inputDate.setText(selectedDate);
     }
@@ -106,9 +108,6 @@ public class AddExpense extends AppCompatActivity {
         // 顯示 DatePickerDialog
         datePickerDialog.show();
     }
-
-
-
 
 
 
@@ -162,6 +161,7 @@ public class AddExpense extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putInt("Extra_year",year);
         bundle.putInt("Extra_month",month);
+
         bundle.putInt("Extra_day",day);
         bundle.putInt("Extra_expense",expense);
         bundle.putString("Extra_category",category);

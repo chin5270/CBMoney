@@ -5,4 +5,6 @@
     <string name="pie_chart">pie chart</string>
     <string name="account">account</string>
     <string name="edit_note">edit note</string>
+    <string name="back"><![CDATA[<-]]></string>
+    <string name="forward"><![CDATA[->]]></string>
 </resources>
