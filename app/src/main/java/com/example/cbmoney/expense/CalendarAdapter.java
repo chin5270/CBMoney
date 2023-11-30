@@ -33,7 +33,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
         CalendarCellBinding binding = CalendarCellBinding.inflate(
                 LayoutInflater.from(parent.getContext()), parent, false);
         ViewGroup.LayoutParams layoutParams = binding.getRoot().getLayoutParams();
-        layoutParams.height = (int) (parent.getHeight() * 0.2);
+        layoutParams.height = (int) (parent.getHeight() * 0.17);
         return new CalendarViewHolder(binding, onItemListner);
     }
 

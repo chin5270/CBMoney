@@ -153,10 +153,8 @@ public class EditNoteFragment extends Fragment {
         @Override
         public void onClick(View v) {
             selectedDate.add(Calendar.MONTH, -1);
+            setMonthView();
             calendarAdapter.clearSelectedItem(); // 清除选择的日期
-            binding.monthYearTV.setText(CalendarUtils.monthYearFromDate(selectedDate));
-            ArrayList<String> daysInMonth = CalendarUtils.daysInMonthArray(selectedDate);
-
         }
     };
 
@@ -164,10 +162,8 @@ public class EditNoteFragment extends Fragment {
         @Override
         public void onClick(View v) {
             selectedDate.add(Calendar.MONTH, 1);
+            setMonthView();
             calendarAdapter.clearSelectedItem(); // 清除选择的日期
-            binding.monthYearTV.setText(CalendarUtils.monthYearFromDate(selectedDate));
-            ArrayList<String> daysInMonth = CalendarUtils.daysInMonthArray(selectedDate);
-
         }
     };
 
