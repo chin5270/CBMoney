@@ -38,11 +38,12 @@ public class EditNoteFragment extends Fragment {
     private ExpenseViewModel expenseViewModel;
     private FragmentEditNoteBinding binding;
     private RecyclerView calendarRecyclerView;
-    RecyclerView listViewRecyclerView;
+    private RecyclerView listViewRecyclerView;
     private CalendarAdapter calendarAdapter;
     private Calendar selectedDate;
     private ExpenseAdapter adapter;
     private int year,month,day;
+    private Calendar calendar;
     public static final int ADD_EXPENSE_REQUEST = 1;
     public static final int EDIT_EXPENSE_REQUEST = 2;
     @Override
@@ -51,21 +52,11 @@ public class EditNoteFragment extends Fragment {
         binding = FragmentEditNoteBinding.inflate(inflater, container, false);
         calendarRecyclerView = binding.calendarRecyclerView;
 
-        Calendar calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH)+1;
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        selectedDate = Calendar.getInstance();
+        setTodayCalendar();
         setMonthView();
-        setListView();
 
-
-        // 透過 ViewModelProvider 的 get 方法，你可以獲取到與當前上下文相關聯的 ExpenseViewModel 實例。
-        expenseViewModel = new ViewModelProvider(this).get(ExpenseViewModel.class);
-        expenseViewModel.setAllExpensesForDay(year,month,day);
-        expenseViewModel.setTotalExpenseForDay(year,month,day);
-        observeList();
+        setExpenseAdapter();
+        setTodayExpenseListView();
 
 
         swipeExpenseToDelete(adapter,listViewRecyclerView);
@@ -79,6 +70,13 @@ public class EditNoteFragment extends Fragment {
         return binding.getRoot();
     }
 
+    private void setTodayCalendar(){
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH)+1;
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        selectedDate = Calendar.getInstance();
+    }
     private void setMonthView() {
         binding.monthYearTV.setText(CalendarUtils.monthYearFromDate(selectedDate));
         ArrayList<String> daysInMonth = CalendarUtils.daysInMonthArray(selectedDate);
@@ -111,8 +109,24 @@ public class EditNoteFragment extends Fragment {
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
     }
+    private void setExpenseAdapter(){
+        // 設置 RecyclerView 的佈局管理器。這裡使用了 LinearLayoutManager，它是一種將項目垂直或水平排列的佈局管理器
+        // setHasFixedSize 可以優化 RecyclerView 的性能。當你知道內容不會改變 RecyclerView 的大小時，可以設置為 true
+        listViewRecyclerView = binding.recyclerView;
+        listViewRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        listViewRecyclerView.setHasFixedSize(true);
 
-
+        // 將 ExpenseAdapter 設置為 RecyclerView 的適配器。這將負責管理數據和提供數據項的視圖
+        adapter = new ExpenseAdapter();
+        listViewRecyclerView.setAdapter(adapter);
+    }
+    private void setTodayExpenseListView(){
+        // 透過 ViewModelProvider 的 get 方法，你可以獲取到與當前上下文相關聯的 ExpenseViewModel 實例。
+        expenseViewModel = new ViewModelProvider(this).get(ExpenseViewModel.class);
+        expenseViewModel.setAllExpensesForDay(year,month,day);
+        expenseViewModel.setTotalExpenseForDay(year,month,day);
+        observeList();
+    }
     private void observeList(){
          expenseViewModel.getAllExpensesForDay().observe(getViewLifecycleOwner(), new Observer<List<ExpenseEntity>>() {
             // 當 LiveData 中的數據發生變化時，觀察者內的 onChanged 方法將被呼叫，然後ui介面更新
@@ -135,20 +149,6 @@ public class EditNoteFragment extends Fragment {
         });
     }
 
-
-
-    private void setListView(){
-        // 設置 RecyclerView 的佈局管理器。這裡使用了 LinearLayoutManager，它是一種將項目垂直或水平排列的佈局管理器
-        // setHasFixedSize 可以優化 RecyclerView 的性能。當你知道內容不會改變 RecyclerView 的大小時，可以設置為 true
-        listViewRecyclerView = binding.recyclerView;
-        listViewRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        listViewRecyclerView.setHasFixedSize(true);
-
-        // 將 ExpenseAdapter 設置為 RecyclerView 的適配器。這將負責管理數據和提供數據項的視圖
-        adapter = new ExpenseAdapter();
-        listViewRecyclerView.setAdapter(adapter);
-    }
-
     View.OnClickListener previousMonthListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -166,7 +166,6 @@ public class EditNoteFragment extends Fragment {
             calendarAdapter.clearSelectedItem(); // 清除选择的日期
         }
     };
-
 
     private void swipeExpenseToDelete(ExpenseAdapter adapter, RecyclerView recyclerView){
         // ItemTouchHelper 類，這是一個用於處理 RecyclerView 中項目拖動和滑動的幫助類
