@@ -9,12 +9,14 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.cbmoney.model.AccountEntity;
 import com.example.cbmoney.model.ExpenseEntity;
 
-@Database(entities = {ExpenseEntity.class}, version = 1)
+@Database(entities = {ExpenseEntity.class,AccountEntity.class}, version = 1)
 public abstract class ExpenseDatabase extends RoomDatabase{
     private static ExpenseDatabase instance; // 單例模式確保一個類別僅有一個實例，並提供一個全域訪問點。
     public abstract ExpenseDao expenseDao();// 這個方法允許你獲取 ExpenseDao 實例，從而可以使用其中定義的方法來執行數據庫操作，比如插入、查詢、更新、刪除等。
+    public abstract AccountDao accountDao();
 
 
     // 這個方法確保在多線程環境中只有一個數據庫實例。這是使用 synchronized 保證同一時間只有一個線程能夠進入 getInstance 方法
@@ -54,16 +56,20 @@ public abstract class ExpenseDatabase extends RoomDatabase{
     // 這段程式碼是使用 AsyncTask 在後台線程中執行的一個任務，目的是將一條新的 ExpenseDao 插入到 Room 數據庫中
     private static class PopulatedbAsyncTask extends AsyncTask<Void,Void,Void> {
         private ExpenseDao expenseDao;
+        private AccountDao accountDao;
         private PopulatedbAsyncTask(ExpenseDatabase db){
-
             expenseDao = db.expenseDao();
+            accountDao = db.accountDao();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            expenseDao.insert(new ExpenseEntity("食物","麥當勞",150,"現金",2023,10,15));
-            expenseDao.insert(new ExpenseEntity("食物","肯德基",89,"現金",2023,10,24));
-            expenseDao.insert(new ExpenseEntity("生活用品","洗髮精",300,"現金",2023,11,15));
+            accountDao.inert(new AccountEntity("現金",0));
+            accountDao.inert(new AccountEntity("中國信託",0));
+
+            expenseDao.insert(new ExpenseEntity("食物","麥當勞",150,"現金",2023,12,5));
+            expenseDao.insert(new ExpenseEntity("食物","肯德基",89,"現金",2023,12,5));
+            expenseDao.insert(new ExpenseEntity("生活用品","洗髮精",300,"現金",2023,12,4));
             return null;
         }
     }

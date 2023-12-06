@@ -1,10 +1,20 @@
 package com.example.cbmoney.model;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 
 
-@Entity(tableName = "expense_table") //  Room 創建一個名為 "note_table" 的表格
+//@Entity(tableName = "expense_table") //  Room 創建一個名為 "note_table" 的表格
+@Entity(
+        tableName = "expense_table",
+        foreignKeys = @ForeignKey(
+                entity = AccountEntity.class,
+                parentColumns = "accountName",
+                childColumns = "account",
+                onUpdate = ForeignKey.CASCADE, // 在父表（AccountEntity）中更新時，相應的子表（ExpenseEntity）也進行更新
+                onDelete = ForeignKey.CASCADE //
+        ))
 public class ExpenseEntity {
         // column
         @PrimaryKey(autoGenerate = true) // 作為主鍵，並指示 Room 自動生成主鍵的值

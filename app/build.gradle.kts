@@ -61,6 +61,9 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-livedata:2.4.0")
     implementation ("androidx.lifecycle:lifecycle-common-java8:2.4.0")
 
+    // pieChart
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
 
     constraints {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
