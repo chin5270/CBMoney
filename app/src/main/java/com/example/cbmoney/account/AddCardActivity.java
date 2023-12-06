@@ -34,9 +34,11 @@ public class AddCardActivity extends AppCompatActivity {
 
             binding.editAccount.setText(accountBundle.getString("Extra_account"));
             binding.editInitalBalance.setText(accountBundle.getInt("Extra_initialBalance")+"");
+            binding.tvAddEdit.setText("帳戶修改");
 
         }else{
             setTitle("Add Account");
+            binding.tvAddEdit.setText("帳戶新增");
         }
 
 
