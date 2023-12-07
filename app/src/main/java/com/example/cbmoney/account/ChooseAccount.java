@@ -52,10 +52,10 @@ public class ChooseAccount extends AppCompatActivity {
         binding = ActivityChooseAccountBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // 設定叉叉的圖是在左上角，以及他的標題在ActionBar上
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.close);
+
         setTitle("Choose Account");
         account = "";
+
         accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
         LiveData<List<AccountEntity>> allAccounts = accountViewModel.getAllAccounts();
 
@@ -99,6 +99,14 @@ public class ChooseAccount extends AppCompatActivity {
 
             account = ((TextView)view).getText().toString();
 
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putString("Extra_account",account);
+            intent.putExtras(bundle);
+
+            setResult(RESULT_OK,intent);
+            finish();
+
 
         }
     };
@@ -128,49 +136,7 @@ public class ChooseAccount extends AppCompatActivity {
         binding.listview.setDividerHeight(1); // 設置分隔線的高度
         binding.listview.setAdapter(adapter);
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.add_expense_menu,menu);
-        return true;
-    }
 
-    // 這個方法在用戶選擇選項菜單中的項目時被調用。
-    // 如果用戶選擇了 "save_expense" 項目，則會呼叫 noteViewModel.deleteAllNotes()
-    // 同時顯示一個簡短的 Toast 消息來通知用戶。
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.save_expense) {
-            saveAccount();
-
-            return true;
-        } else if(item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
-
-    }
-
-    private void saveAccount() {
-        Log.d("chin",account);
-        if(account.isEmpty()){
-            Toast.makeText(this,"請選擇帳號",Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putString("Extra_account",account);
-        intent.putExtras(bundle);
-
-        setResult(RESULT_OK,intent);
-        finish();
-
-
-
-    }
 
 
 }

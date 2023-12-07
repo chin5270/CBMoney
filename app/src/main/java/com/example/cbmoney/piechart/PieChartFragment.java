@@ -31,17 +31,22 @@ public class PieChartFragment extends Fragment {
         binding = FragmentPieChartBinding.inflate(inflater, container, false);
 
         PieChart pieChart = binding.chart;
+
         Legend legend = pieChart.getLegend();
-       // legend.setTextSize(12f); // 設置文字大小
-        legend.setTextColor(Color.WHITE); // 設置文字顏色
-        pieChart.setDrawHoleEnabled(false); // 啟用中空區域
+        legend.setWordWrapEnabled(true);
+        legend.setTextColor(Color.WHITE);
+        legend.setDrawInside(false);
+        pieChart.setDrawHoleEnabled(false);
 
         ArrayList<PieEntry> entries = new ArrayList<>();
 
-        entries.add(new PieEntry(80,"Maths"));
-        entries.add(new PieEntry(90,"Englsh"));
-        entries.add(new PieEntry(10,"Science"));
-        entries.add(new PieEntry(100,"Chinese"));
+        entries.add(new PieEntry(80,"數學"));
+        entries.add(new PieEntry(90,"英文"));
+        entries.add(new PieEntry(10,"日文"));
+        entries.add(new PieEntry(100,"德文"));
+        entries.add(new PieEntry(60,"法文"));
+
+
 
         PieDataSet pieDataSet = new PieDataSet(entries,"subjects");
         pieDataSet.setColors(ColorTemplate.PASTEL_COLORS);
@@ -50,10 +55,11 @@ public class PieChartFragment extends Fragment {
         pieChart.setData(pieData);
 
         pieChart.getDescription().setEnabled(false);
-        pieChart.animateY(1000);
+        pieChart.animateY(500);
         pieChart.invalidate();
 
         return  binding.getRoot();
+
 
     }
 }

@@ -28,6 +28,7 @@ public class AddExpense extends AppCompatActivity {
     ActivityAddExpenseBinding binding;
     private int year, month, day;
     public static final int ADD_ACCOUNT_REQUEST = 1;
+    public static final int ADD_CATEGORY_REQUEST = 2;
     private String account;
 
     @Override
@@ -70,6 +71,7 @@ public class AddExpense extends AppCompatActivity {
         // 選擇的日期(按到才有)
         setListner();
         goToChooseAccount();
+        goToChooseCategory();
 
     }
 
@@ -159,8 +161,8 @@ public class AddExpense extends AppCompatActivity {
         String description = binding.inputDescription.getText().toString();
 
 
-        if(expenseString.isEmpty()|| description.trim().isEmpty()){
-            Toast.makeText(this,"請輸入金額和備註",Toast.LENGTH_SHORT).show();
+        if(expenseString.isEmpty()){
+            Toast.makeText(this,"請輸入金額",Toast.LENGTH_SHORT).show();
             return;
         }
         int expense = Integer.parseInt(expenseString);
@@ -201,6 +203,16 @@ public class AddExpense extends AppCompatActivity {
             }
         });
     }
+    private void goToChooseCategory(){
+        binding.inputCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddExpense.this, ChooseCategory.class);
+                startActivityForResult(intent, ADD_CATEGORY_REQUEST);
+            }
+        });
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -210,7 +222,13 @@ public class AddExpense extends AppCompatActivity {
             String account =  bundle.getString("Extra_account");
             binding.inputAccount.setText(account);
             Toast.makeText(this,"你選擇的帳戶:"+account,Toast.LENGTH_SHORT).show();
-        }else{
+        }else if(requestCode == ADD_CATEGORY_REQUEST && resultCode == RESULT_OK){
+            Bundle bundle = data.getExtras();
+            String category =  bundle.getString("Extra_category");
+            binding.inputCategory.setText(category);
+            Toast.makeText(this,"你選擇的類別:"+category,Toast.LENGTH_SHORT).show();
+        }
+        else{
             Toast.makeText(this,"取消選擇",Toast.LENGTH_SHORT).show();
         }
     }
