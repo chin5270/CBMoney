@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,18 +13,22 @@
         android:theme="@style/Theme.CBMoney"
         tools:targetApi="31">
         <activity
-            android:name=".account.AddCardActivity"
-            android:parentActivityName=".account.AccountFragment"
-            android:exported="false"
+            android:name=".account.ChooseAccount"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:exported="true"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".account.AddCardActivity"
+            android:exported="false"
+            android:parentActivityName=".account.AccountFragment"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".expense.AddExpense"
-            android:exported="true"
+            android:exported="false"
             android:parentActivityName=".expense.EditNoteFragment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -34,7 +39,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

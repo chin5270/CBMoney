@@ -40,7 +40,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
         holder.bind(daysOfMonth.get(position));
-        Log.d("chin","selectedItem="+selectedItem);
         if (position == selectedItem) {
             holder.itemView.setBackgroundColor(holder.itemView.getContext().getColor(R.color.bright_blue));
         } else {

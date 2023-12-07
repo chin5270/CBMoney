@@ -1,6 +1,9 @@
 package com.example.cbmoney.expense;
 
+import static android.app.PendingIntent.getActivity;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -16,6 +19,7 @@ import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.example.cbmoney.R;
+import com.example.cbmoney.account.ChooseAccount;
 import com.example.cbmoney.databinding.ActivityAddExpenseBinding;
 
 import java.util.Calendar;
@@ -23,6 +27,8 @@ import java.util.Calendar;
 public class AddExpense extends AppCompatActivity {
     ActivityAddExpenseBinding binding;
     private int year, month, day;
+    public static final int ADD_ACCOUNT_REQUEST = 1;
+    private String account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,7 @@ public class AddExpense extends AppCompatActivity {
             binding.inputExpense.setText(expense+"");
             binding.inputCategory.setText(category);
             binding.inputDescription.setText(description);
+            binding.inputAccount.setText(account);
         }else{
             setTitle("Add expense");
         }
@@ -62,6 +69,7 @@ public class AddExpense extends AppCompatActivity {
 
         // 選擇的日期(按到才有)
         setListner();
+        goToChooseAccount();
 
     }
 
@@ -173,7 +181,6 @@ public class AddExpense extends AppCompatActivity {
         // 這裡的 getIntExtra(EXTRA_ID, -1) 表示從 Intent 中獲取名為 EXTRA_ID 的額外數據
         // ，如果找不到這個額外數據，則返回默認值 -1
         int id = getIntent().getIntExtra("Extra_id",-1);
-        Log.d("chin",id+"");
         if(id!=-1){
             bundle.putInt("Extra_id",id);
         }
@@ -185,5 +192,26 @@ public class AddExpense extends AppCompatActivity {
 
     }
 
+    private void goToChooseAccount(){
+        binding.inputAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddExpense.this, ChooseAccount.class);
+                startActivityForResult(intent, ADD_ACCOUNT_REQUEST);
+            }
+        });
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_ACCOUNT_REQUEST && resultCode == RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            String account =  bundle.getString("Extra_account");
+            binding.inputAccount.setText(account);
+            Toast.makeText(this,"你選擇的帳戶:"+account,Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this,"取消選擇",Toast.LENGTH_SHORT).show();
+        }
+    }
 }
