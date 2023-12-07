@@ -28,7 +28,6 @@ public class AddExpense extends AppCompatActivity {
     ActivityAddExpenseBinding binding;
     private int year, month, day;
     public static final int ADD_ACCOUNT_REQUEST = 1;
-    private String account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
