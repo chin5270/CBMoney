@@ -53,7 +53,6 @@ public class AddExpense extends AppCompatActivity {
             month = bundle2.getInt("Extra_month");
             day = bundle2.getInt("Extra_day");
             int expense = bundle2.getInt("Extra_expense");
-            Log.d("chin","AddExpense:"+day);
             String category = bundle2.getString("Extra_category");
             String account = bundle2.getString("Extra_account");
             String description = bundle2.getString("Extra_description");

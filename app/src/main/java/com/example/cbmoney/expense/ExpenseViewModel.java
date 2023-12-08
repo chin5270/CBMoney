@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.cbmoney.model.ExpenseEntity;
 import com.example.cbmoney.repository.ExpenseRepository;
@@ -23,6 +24,7 @@ public class ExpenseViewModel extends AndroidViewModel {
     public ExpenseViewModel(@NonNull Application application) {
         super(application);
         repository = new ExpenseRepository(application);
+        categoryExpenseForMonth = new MutableLiveData<>();
 
     }
 

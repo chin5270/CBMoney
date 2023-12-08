@@ -7,4 +7,6 @@
     <string name="edit_note">edit note</string>
     <string name="back"><![CDATA[<-]]></string>
     <string name="forward"><![CDATA[->]]></string>
+    <string name="ok">確認</string>
+    <string name="cancel">取消</string>
 </resources>

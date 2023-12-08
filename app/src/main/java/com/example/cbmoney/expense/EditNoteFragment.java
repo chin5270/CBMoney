@@ -242,13 +242,13 @@ public class EditNoteFragment extends Fragment {
         if (requestCode == ADD_EXPENSE_REQUEST && resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
             year = bundle.getInt("Extra_year");
-            month = bundle.getInt("Extra_month");
+            month = bundle.getInt("Extra_month")+1;
             day = bundle.getInt("Extra_day");
             int expense = bundle.getInt("Extra_expense");
             String category = bundle.getString("Extra_category");
             String account = bundle.getString("Extra_account");
             String description = bundle.getString("Extra_description");
-            expenseViewModel.insert(new ExpenseEntity(category,description,expense,account,year,month+1,day));
+            expenseViewModel.insert(new ExpenseEntity(category,description,expense,account,year,month,day));
             Toast.makeText(getContext(),"expense saved",Toast.LENGTH_SHORT).show();
 
         }else if(requestCode == EDIT_EXPENSE_REQUEST && resultCode == RESULT_OK){
