@@ -309,7 +309,7 @@ public class EditNoteFragment extends Fragment {
         if (requestCode == ADD_EXPENSE_REQUEST && resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
             year = bundle.getInt("Extra_year");
-            month = bundle.getInt("Extra_month")+1;
+            month = bundle.getInt("Extra_month");
             day = bundle.getInt("Extra_day");
             int expense = bundle.getInt("Extra_expense");
             String category = bundle.getString("Extra_category");
@@ -340,7 +340,7 @@ public class EditNoteFragment extends Fragment {
         }else if(requestCode == ADD_INCOME_REQUEST && resultCode == RESULT_OK){
             Bundle bundle = data.getExtras();
             year = bundle.getInt("Extra_year");
-            month = bundle.getInt("Extra_month")+1;
+            month = bundle.getInt("Extra_month");
             day = bundle.getInt("Extra_day");
             int income = bundle.getInt("Extra_income");
             String category = bundle.getString("Extra_category");

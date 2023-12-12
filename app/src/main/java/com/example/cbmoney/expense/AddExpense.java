@@ -79,9 +79,9 @@ public class AddExpense extends AppCompatActivity {
     private void showChoseday(Intent intent){
         Bundle bundle3 = intent.getExtras();
         year = bundle3.getInt("Extra_year");
-        month = bundle3.getInt("Extra_month")-1;
+        month = bundle3.getInt("Extra_month");
         day = bundle3.getInt("Extra_day");
-        String selectedDate = year + "年" + (month+1) + "月" + day+"日";
+        String selectedDate = year + "年" + month + "月" + day+"日";
         binding.inputDate.setText(selectedDate);
     }
 
@@ -99,21 +99,21 @@ public class AddExpense extends AppCompatActivity {
     private void showDatePickerDialog(Context context) {
         // 獲取當前日期
         Calendar calendar = Calendar.getInstance();
-        int selectyear = calendar.get(Calendar.YEAR);
-        int selectmonth = calendar.get(Calendar.MONTH);
-        int selectday = calendar.get(Calendar.DAY_OF_MONTH);
+        int currentYear = calendar.get(Calendar.YEAR);
+        int currentMonth = calendar.get(Calendar.MONTH);
+        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
         // 創建 DatePickerDialog 實例
         DatePickerDialog datePickerDialog = new DatePickerDialog(context,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int selectyear, int selectmonth, int selectday) {
                         year = selectyear;
-                        month = selectmonth;
+                        month = selectmonth+1;
                         day = selectday;
                         // 當用戶設置日期後執行的操作
-                        String selectedDate = year + "年" + (month+1) + "月" + day+"日";
+                        String selectedDate = year + "年" + month + "月" + day+"日";
                         binding.inputDate.setText(selectedDate);
-                    }}, year, month, day);
+                    }}, currentYear, currentMonth, currentDay);
         // 顯示 DatePickerDialog
         datePickerDialog.show();
     }
