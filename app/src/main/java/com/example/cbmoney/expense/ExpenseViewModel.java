@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.cbmoney.model.ExpenseEntity;
+import com.example.cbmoney.model.TransactionEntity;
 import com.example.cbmoney.repository.ExpenseRepository;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class ExpenseViewModel extends AndroidViewModel {
     private LiveData<Integer> categoryExpenseForMonth;
     private LiveData<List<ExpenseEntity>> allExpensesForMonth;
 
-    private LiveData<List<ExpenseEntity>> allExpensesForDay;
+    private LiveData<List<ExpenseEntity>>  allExpensesForDay;
 
     public ExpenseViewModel(@NonNull Application application) {
         super(application);

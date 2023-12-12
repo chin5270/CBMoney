@@ -13,10 +13,20 @@
         android:theme="@style/Theme.CBMoney"
         tools:targetApi="31">
         <activity
+            android:name=".expense.ChooseIncomeCategory"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".expense.AddIncome"
+            android:exported="false"
+            android:parentActivityName=".expense.EditNoteFragment"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".expense.ChooseCategory"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".account.ChooseAccount"
             android:exported="false"

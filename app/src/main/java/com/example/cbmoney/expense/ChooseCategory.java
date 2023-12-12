@@ -19,7 +19,7 @@ import com.example.cbmoney.databinding.ActivityChooseCategoryBinding;
 
 public class ChooseCategory extends AppCompatActivity {
 
-        ActivityChooseCategoryBinding binding;
+        private ActivityChooseCategoryBinding binding;
         private ArrayAdapter adapter; // 統一項目使用的資料
 
         private String[] data ={"飲食","日常開銷","娛樂","醫療保健","其他"} ;

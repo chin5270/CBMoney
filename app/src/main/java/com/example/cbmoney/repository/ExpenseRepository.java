@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 import com.example.cbmoney.model.ExpenseEntity;
+import com.example.cbmoney.model.TransactionEntity;
 
 import java.util.List;
 

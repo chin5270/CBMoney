@@ -5,14 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cbmoney.databinding.AccountItemBinding;
-import com.example.cbmoney.databinding.ExpenseItemBinding;
-import com.example.cbmoney.expense.ExpenseAdapter;
 import com.example.cbmoney.model.AccountEntity;
-import com.example.cbmoney.model.ExpenseEntity;
 
 import java.util.ArrayList;
 import java.util.List;

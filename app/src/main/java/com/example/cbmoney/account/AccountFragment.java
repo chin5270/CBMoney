@@ -20,10 +20,7 @@ import android.widget.Toast;
 
 import com.example.cbmoney.databinding.FragmentAccountBinding;
 
-import com.example.cbmoney.expense.AddExpense;
-import com.example.cbmoney.expense.ExpenseAdapter;
 import com.example.cbmoney.model.AccountEntity;
-import com.example.cbmoney.model.ExpenseEntity;
 
 
 import java.util.List;
@@ -91,7 +88,7 @@ public class AccountFragment extends Fragment {
     public void updateAccount(AccountAdapter accountAdapter){
         // 當項目被點擊時，創建一個新的 Intent，將相應的 ExpenseEntity 對象的信息放入 Intent 中，
         // 然後啟動 AddEditNoteActivity 以編輯該筆資料，
-        // 需要確保在 ExpenseAdapter 中添加相應的方法
+        // 需要確保在 TransactionAdapter 中添加相應的方法
         accountAdapter.setOnItemClickListener(new AccountAdapter.OnIttemClickListner() {
             @Override
             public void onItemClick(AccountEntity account) {

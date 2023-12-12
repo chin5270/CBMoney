@@ -11,12 +11,14 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.cbmoney.model.AccountEntity;
 import com.example.cbmoney.model.ExpenseEntity;
+import com.example.cbmoney.model.IncomeEntity;
 
-@Database(entities = {ExpenseEntity.class,AccountEntity.class}, version = 1)
+@Database(entities = {ExpenseEntity.class,AccountEntity.class, IncomeEntity.class}, version = 1)
 public abstract class ExpenseDatabase extends RoomDatabase{
     private static ExpenseDatabase instance; // 單例模式確保一個類別僅有一個實例，並提供一個全域訪問點。
     public abstract ExpenseDao expenseDao();// 這個方法允許你獲取 ExpenseDao 實例，從而可以使用其中定義的方法來執行數據庫操作，比如插入、查詢、更新、刪除等。
     public abstract AccountDao accountDao();
+    public abstract IncomeDao incomeDao();
 
 
     // 這個方法確保在多線程環境中只有一個數據庫實例。這是使用 synchronized 保證同一時間只有一個線程能夠進入 getInstance 方法
@@ -57,9 +59,11 @@ public abstract class ExpenseDatabase extends RoomDatabase{
     private static class PopulatedbAsyncTask extends AsyncTask<Void,Void,Void> {
         private ExpenseDao expenseDao;
         private AccountDao accountDao;
+        private IncomeDao incomeDao;
         private PopulatedbAsyncTask(ExpenseDatabase db){
             expenseDao = db.expenseDao();
             accountDao = db.accountDao();
+            incomeDao = db.incomeDao();
         }
 
         @Override
@@ -67,9 +71,13 @@ public abstract class ExpenseDatabase extends RoomDatabase{
             accountDao.inert(new AccountEntity("現金",0));
             accountDao.inert(new AccountEntity("中國信託",0));
 
-            expenseDao.insert(new ExpenseEntity("飲食","麥當勞",150,"現金",2023,12,5));
-            expenseDao.insert(new ExpenseEntity("飲食","肯德基",89,"現金",2023,12,5));
-            expenseDao.insert(new ExpenseEntity("日常開銷","洗髮精",300,"現金",2023,12,4));
+            expenseDao.insert(new ExpenseEntity("飲食","麥當勞",150,"現金",2023,12,10));
+            expenseDao.insert(new ExpenseEntity("飲食","肯德基",89,"現金",2023,12,11));
+            expenseDao.insert(new ExpenseEntity("日常開銷","洗髮精",300,"現金",2023,12,11));
+
+            incomeDao.insert(new IncomeEntity("薪資","剪輯",8000,"中國信託",2023,12,11));
+            incomeDao.insert(new IncomeEntity("獎金","政府補助",1000,"現金",2023,12,11));
+            incomeDao.insert(new IncomeEntity("獎金","政府補助",2000,"現金",2023,12,10));
             return null;
         }
     }
