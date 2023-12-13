@@ -68,7 +68,7 @@ public class TransactionAdapter extends ListAdapter<TransactionEntity, Transacti
             binding.textViewMoney.setText(" "+String.valueOf(currentExpense.getMoney())+" ");
             binding.textViewAccount.setText(currentExpense.getAccount());
             // 設置背景顏色為綠色
-            binding.textViewMoney.setBackgroundColor(binding.getRoot().getContext().getColor(android.R.color.holo_green_light));
+            binding.textViewMoney.setBackgroundColor(binding.getRoot().getContext().getColor(android.R.color.holo_red_light));
         } else if (currentTransaction instanceof IncomeEntity) {
             // 如果是 IncomeEntity，執行相應的操作
             IncomeEntity currentIncome = (IncomeEntity) currentTransaction;
@@ -77,7 +77,7 @@ public class TransactionAdapter extends ListAdapter<TransactionEntity, Transacti
             binding.textViewMoney.setText(" "+String.valueOf(currentIncome.getMoney())+" ");
             binding.textViewAccount.setText(currentIncome.getAccount());
             // 設置背景顏色為紅色
-            binding.textViewMoney.setBackgroundColor(binding.getRoot().getContext().getColor(android.R.color.holo_red_light));
+            binding.textViewMoney.setBackgroundColor(binding.getRoot().getContext().getColor(android.R.color.holo_green_light));
         }
     }
 

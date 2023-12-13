@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:text="100"
-                android:textColor="@color/snow"
+                android:textColor="@android:color/holo_green_light"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <TextView

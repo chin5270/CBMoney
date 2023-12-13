@@ -15,12 +15,10 @@ import java.util.List;
 
 public class IncomeViewModel extends AndroidViewModel {
     private IncomeRepository repository;
-    private LiveData<Integer> TotalAccountIncome;
     private LiveData<List<IncomeEntity>> AllIncomesForDay;
     public IncomeViewModel(@NonNull Application application) {
         super(application);
         repository = new IncomeRepository(application);
-        TotalAccountIncome = new MutableLiveData<>();  // 初始化為 MutableLiveData
         AllIncomesForDay = new MutableLiveData<>();
 
 
@@ -30,18 +28,12 @@ public class IncomeViewModel extends AndroidViewModel {
         repository.setAllIncomesForDay(year, month, day);
     }
 
-    public LiveData<List<IncomeEntity>> getAllIncomesForDay(){
+    public LiveData<List<IncomeEntity>> getAllncomesForDay(){
         AllIncomesForDay = repository.getAllIncomesForDay();
         return AllIncomesForDay;
     }
 
-    public void setTotalAccountIncome(String account){
-        repository.setTotalAccountIncome(account);
-    }
 
-    public LiveData<Integer> getTotalAccountIncome(){
-        return TotalAccountIncome;
-    }
     public void insert(IncomeEntity income){
         repository.insert(income);
     }

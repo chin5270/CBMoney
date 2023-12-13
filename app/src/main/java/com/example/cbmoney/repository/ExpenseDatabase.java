@@ -69,15 +69,7 @@ public abstract class ExpenseDatabase extends RoomDatabase{
         @Override
         protected Void doInBackground(Void... voids) {
             accountDao.inert(new AccountEntity("現金",0));
-            accountDao.inert(new AccountEntity("中國信託",0));
 
-            expenseDao.insert(new ExpenseEntity("飲食","麥當勞",150,"現金",2023,12,10));
-            expenseDao.insert(new ExpenseEntity("飲食","肯德基",89,"現金",2023,12,11));
-            expenseDao.insert(new ExpenseEntity("日常開銷","洗髮精",300,"現金",2023,12,11));
-
-            incomeDao.insert(new IncomeEntity("薪資","剪輯",8000,"中國信託",2023,12,11));
-            incomeDao.insert(new IncomeEntity("獎金","政府補助",1000,"現金",2023,12,11));
-            incomeDao.insert(new IncomeEntity("獎金","政府補助",2000,"現金",2023,12,10));
             return null;
         }
     }

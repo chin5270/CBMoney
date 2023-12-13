@@ -142,7 +142,7 @@ public class EditNoteFragment extends Fragment {
     }
     private void observeList() {
         LiveData<List<ExpenseEntity>> expenseLiveData = expenseViewModel.getAllExpensesForDay();
-        LiveData<List<IncomeEntity>> incomeLiveData = incomeViewModel.getAllIncomesForDay();
+        LiveData<List<IncomeEntity>> incomeLiveData = incomeViewModel.getAllncomesForDay();
 
         MediatorLiveData<List<TransactionEntity>> mergedLiveData = new MediatorLiveData<>();
         mergedLiveData.addSource(expenseLiveData, new Observer<List<ExpenseEntity>>() {

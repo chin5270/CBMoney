@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.example.cbmoney.databinding.FragmentAccountBinding;
 
 import com.example.cbmoney.model.AccountEntity;
+import com.example.cbmoney.model.ExpenseEntity;
+import com.example.cbmoney.model.IncomeEntity;
 
 
 import java.util.List;
@@ -66,6 +68,21 @@ public class AccountFragment extends Fragment {
                 accountAdapter.setAccounts(accounts);
             }
         });
+        accountViewModel.getAllIncomes().observe(getViewLifecycleOwner(), new Observer<List<IncomeEntity>>() {
+            @Override
+            public void onChanged(List<IncomeEntity> incomes) {
+                // 在這裡更新相應的 UI 或執行其他操作
+                accountAdapter.setIncomes(incomes);
+            }
+        });
+        accountViewModel.getAllExpenses().observe(getViewLifecycleOwner(), new Observer<List<ExpenseEntity>>() {
+            @Override
+            public void onChanged(List<ExpenseEntity> expenses) {
+                // 在這裡更新相應的 UI 或執行其他操作
+                accountAdapter.setExpenses(expenses);
+            }
+        });
+
     }
 
     //  按下加號，頁面跳到AddCardActivity

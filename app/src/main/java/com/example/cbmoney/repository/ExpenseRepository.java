@@ -12,21 +12,23 @@ import java.util.List;
 
 public class ExpenseRepository {
     private ExpenseDao expenseDao;
-    private LiveData<Integer> totalExpenseForMonth;
+
     private LiveData<Integer> totalExpenseForDay;
     private LiveData<Integer> categoryExpenseForMonth;
-    private LiveData<List<ExpenseEntity>> allExpensesForMonth;
     private LiveData<List<ExpenseEntity>> allExpensesForDay;
+    private LiveData<List<ExpenseEntity>> allExpenses;
 
     public ExpenseRepository(Application application) {
         ExpenseDatabase expenseDatabase = ExpenseDatabase.getInstance(application);
         expenseDao = expenseDatabase.expenseDao();
+        allExpenses = expenseDao.getAllExpenses();
 
     }
-
-    public void setTotalExpenseForMonth(int year, int month) {
-        totalExpenseForMonth = expenseDao.getTotalExpenseForMonth(year, month);
+    public LiveData<List<ExpenseEntity>> getAllExpenses(){
+        return allExpenses;
     }
+
+
 
     public void setTotalExpenseForDay(int year, int month,int day) {
         totalExpenseForDay = expenseDao.getTotalExpenseForDay(year, month,day);
@@ -36,17 +38,12 @@ public class ExpenseRepository {
         categoryExpenseForMonth = expenseDao.getCategoryExpenseForMonth(year, month, category);
     }
 
-    public void setAllExpensesForMonth(int year, int month) {
-        allExpensesForMonth = expenseDao.getAllExpensesForMonth(year, month);
-    }
+
 
     public void setAllExpensesForDay(int year, int month,int day) {
         allExpensesForDay = expenseDao.getAllExpensesForDay(year, month,day);
     }
 
-    public LiveData<Integer> getTotalExpenseForMonth() {
-        return totalExpenseForMonth;
-    }
     public LiveData<Integer> getTotalExpenseForDay() {
         return totalExpenseForDay;
     }
@@ -55,9 +52,6 @@ public class ExpenseRepository {
         return categoryExpenseForMonth;
     }
 
-    public LiveData<List<ExpenseEntity>> getAllExpensesForMonth() {
-        return allExpensesForMonth;
-    }
 
     public LiveData<List<ExpenseEntity>> getAllExpensesForDay() {
         return allExpensesForDay;

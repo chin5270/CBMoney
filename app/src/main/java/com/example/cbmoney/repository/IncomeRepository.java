@@ -12,14 +12,18 @@ import java.util.List;
 
 public class IncomeRepository {
     private IncomeDao incomeDao;
-    private LiveData<Integer> TotalAccountIncome;
     private LiveData<List<IncomeEntity>> AllIncomesForDay;
+    private LiveData<List<IncomeEntity>> allIncomes;
 
     public IncomeRepository(Application application){
         ExpenseDatabase database = ExpenseDatabase.getInstance(application);
         incomeDao = database.incomeDao();
+        allIncomes = incomeDao.getAllIncomes();
     }
 
+    public LiveData<List<IncomeEntity>> getAllIncomes(){
+        return allIncomes;
+    }
     public void setAllIncomesForDay(int year, int month,int day) {
         AllIncomesForDay = incomeDao.getAllIncomesForDay(year, month,day);
     }
@@ -28,13 +32,6 @@ public class IncomeRepository {
         return AllIncomesForDay;
     }
 
-    public void setTotalAccountIncome(String account){
-        TotalAccountIncome = incomeDao.getTotalAccountIncome(account);
-    }
-
-    public LiveData<Integer> getTotalAccountIncome(){
-        return TotalAccountIncome;
-    }
 
     public void insert(IncomeEntity income){
         new InsertIncomeAsynctask(incomeDao).execute(income);
