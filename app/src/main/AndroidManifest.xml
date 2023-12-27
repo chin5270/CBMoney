@@ -15,7 +15,8 @@
         <activity
             android:name=".expense.ChooseIncomeCategory"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".expense.AddIncome"
             android:exported="false"
